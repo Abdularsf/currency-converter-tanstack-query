@@ -8,10 +8,10 @@ const App = () => {
   const [fromCurrency, setFromCurrency] = useState("USD");
   const [toCurrency, setToCurrency] = useState("INR");
 
-  const {data,isLoading,error} =  useQuery({
-    queryKey:["currency"],
-    queryFn:() => currencyConverter(fromCurrency,toCurrency,amount),
-    enabled:false
+  const { data: convertedAmount, isLoading, error } = useQuery({
+    queryKey: ["currency"],
+    queryFn: () => currencyConverter(fromCurrency, toCurrency, amount),
+    enabled: false
   })
 
   // const handleCurrencyCoverter
@@ -57,7 +57,15 @@ const App = () => {
             </select>
           </label>
         </section>
-        <button disabled ={isLoading || amount<=0} onClick={handleCurrencyConverter}>{isLoading ? "coverting...":"convert"}</button>
+        <button disabled={isLoading || amount <= 0} onClick={handleCurrencyConverter}>{isLoading ? "coverting..." : "convert"}</button>
+        <hr />
+        {convertedAmount && (
+          <h2>
+            {amount} {fromCurrency} = {convertedAmount.toFixed(2)} {toCurrency}
+          </h2>
+        )}
+
+        {error && <p>An error occurred: {error.message}</p>}
       </div>
     </section>
   )
