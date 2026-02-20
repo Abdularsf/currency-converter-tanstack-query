@@ -8,13 +8,17 @@ const App = () => {
   const [fromCurrency, setFromCurrency] = useState("USD");
   const [toCurrency, setToCurrency] = useState("INR");
 
-  const { data: convertedAmount, isLoading, error } = useQuery({
+  const { data: convertedAmount, isLoading, error, refetch } = useQuery({
     queryKey: ["currency"],
     queryFn: () => currencyConverter(fromCurrency, toCurrency, amount),
     enabled: false
   })
 
-  // const handleCurrencyCoverter
+  const handleCurrencyConverter = () => {
+    if (amount > 0) {
+      refetch();
+    }
+  };
 
   return (
     <section className="currency-converter">
