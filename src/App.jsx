@@ -1,9 +1,21 @@
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { currencyConverter } from "./api/postApi";
+
 const App = () => {
 
   const [amount, setAmount] = useState(0);
   const [fromCurrency, setFromCurrency] = useState("USD");
   const [toCurrency, setToCurrency] = useState("INR");
-  
+
+  const {data,isLoading,error} =  useQuery({
+    queryKey:["currency"],
+    queryFn:() => currencyConverter(fromCurrency,toCurrency,amount),
+    enabled:false
+  })
+
+  // const handleCurrencyCoverter
+
   return (
     <section className="currency-converter">
       <div className="currency-div">
@@ -12,13 +24,13 @@ const App = () => {
         <div>
           <label>
             Amount:
-            <input type="text" placeholder="Amount" />
+            <input type="text" value={amount} onChange={(e) => setAmount(e.target.value)} />
           </label>
         </div>
         <section className="currency-selector">
           <label>
             From:
-            <select>
+            <select value={fromCurrency} onChange={(e) => setFromCurrency(e.target.value)}>
               {
                 ["USD", "EUR", "GBP", "INR", "AUD"].map((currency) => {
                   return (
@@ -32,7 +44,7 @@ const App = () => {
           </label>
           <label>
             To:
-            <select>
+            <select value={toCurrency} onChange={(e) => setToCurrency(e.target.value)}>
               {
                 ["INR", "USD", "EUR", "GBP", "AUD"].map((currency) => {
                   return (
@@ -45,7 +57,7 @@ const App = () => {
             </select>
           </label>
         </section>
-        <button disabled ={isLoading || amount<=0}>{isLoading ? "coverting...":"convert"}</button>
+        <button disabled ={isLoading || amount<=0} onClick={handleCurrencyConverter}>{isLoading ? "coverting...":"convert"}</button>
       </div>
     </section>
   )
