@@ -40,6 +40,7 @@ const App = () => {
             </select>
           </label>
         </section>
+        <button disabled ={isLoading || amount<=0}>{isLoading ? "coverting...":"convert"}</button>
       </div>
     </section>
   )
