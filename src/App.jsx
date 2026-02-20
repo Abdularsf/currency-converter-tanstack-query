@@ -1,4 +1,9 @@
 const App = () => {
+
+  const [amount, setAmount] = useState(0);
+  const [fromCurrency, setFromCurrency] = useState("USD");
+  const [toCurrency, setToCurrency] = useState("INR");
+  
   return (
     <section className="currency-converter">
       <div className="currency-div">
